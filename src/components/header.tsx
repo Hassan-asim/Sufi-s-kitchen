@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +15,6 @@ const navLinks = [
 ];
 
 export function Header() {
-  const pathname = usePathname();
   const { items } = useCart();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -43,9 +41,7 @@ export function Header() {
               href={link.href}
               className={cn(
                 "transition-colors hover:text-foreground/80",
-                pathname.startsWith(link.href) && link.href !== '/' || pathname === link.href
-                  ? "text-foreground font-semibold"
-                  : "text-foreground/60"
+                "text-foreground/60"
               )}
             >
               {link.label}

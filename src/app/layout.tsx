@@ -1,6 +1,5 @@
 
 "use client";
-
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Header } from "@/components/header";
@@ -26,13 +25,13 @@ export default function RootLayout({
         <meta name="description" content="Authentic Pakistani Cuisine by Chef Sufi Asim Iftikhar. Experience tradition, taste, and togetherness in every dish." />
         
         {/* Open Graph Meta Tags for social sharing */}
-        <meta property="og:title" content="Sufi's Kitchen" />
+ <meta property="og:title" content="Sufi Kitchen" />
         <meta property="og:description" content="Authentic Pakistani Cuisine by Chef Sufi Asim Iftikhar." />
-        <meta property="og:image" content="https://placehold.co/1200x630.png" data-ai-hint="Sufi logo" />
-        <meta property="og:url" content="https://sufis-kitchen.com" />
+        <meta property="og:image" content="/sufi-logo.png" data-ai-hint="Sufi logo" />
+ <meta property="og:url" content="https://sufi-kitchen.com" />
         <meta name="twitter:card" content="summary_large_image" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"

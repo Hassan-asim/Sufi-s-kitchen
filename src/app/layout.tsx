@@ -1,3 +1,4 @@
+
 "use client";
 
 import "./globals.css";
@@ -22,7 +23,15 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Sufi's Kitchen</title>
-        <meta name="description" content="Authentic Pakistani Cuisine" />
+        <meta name="description" content="Authentic Pakistani Cuisine by Chef Sufi Asim Iftikhar. Experience tradition, taste, and togetherness in every dish." />
+        
+        {/* Open Graph Meta Tags for social sharing */}
+        <meta property="og:title" content="Sufi's Kitchen" />
+        <meta property="og:description" content="Authentic Pakistani Cuisine by Chef Sufi Asim Iftikhar." />
+        <meta property="og:image" content="https://placehold.co/1200x630.png" data-ai-hint="Sufi logo" />
+        <meta property="og:url" content="https://sufis-kitchen.com" />
+        <meta name="twitter:card" content="summary_large_image" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link

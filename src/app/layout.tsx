@@ -28,7 +28,7 @@ export default function RootLayout({
  <meta property="og:title" content="Sufi Kitchen" />
         <meta property="og:description" content="Authentic Pakistani Cuisine by Chef Sufi Asim Iftikhar." />
         <meta property="og:image" content="/sufi-logo.png" data-ai-hint="Sufi logo" />
- <meta property="og:url" content="https://sufi-kitchen.com" />
+ <meta property="og:image" content="/.idx/icon.png" data-ai-hint="Sufi logo" />
         <meta name="twitter:card" content="summary_large_image" />
 
  <link rel="preconnect" href="https://fonts.googleapis.com" />

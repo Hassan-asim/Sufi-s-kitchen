@@ -1,22 +1,28 @@
-import type { Metadata } from "next";
+"use client";
+
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-
-export const metadata: Metadata = {
-  title: "Sufi's Kitchen",
-  description: "Authentic Pakistani Cuisine",
-};
+import { useCart } from "@/hooks/use-cart";
+import { useEffect } from "react";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  // This useEffect will recalculate totals on initial load
+  useEffect(() => {
+    useCart.getState()._recalculateTotals();
+  }, [])
+
   return (
     <html lang="en">
       <head>
+        <title>Sufi's Kitchen</title>
+        <meta name="description" content="Authentic Pakistani Cuisine" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link

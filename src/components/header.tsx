@@ -4,8 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ChefHat, ShoppingCart } from "lucide-react";
 import { JaliPattern } from "./icons/jali-pattern";
+import { useCart } from "@/hooks/use-cart";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   { href: "/", label: "Menu" },
@@ -14,6 +17,14 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
+  const { items } = useCart();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const totalItems = items.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -42,9 +53,14 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
-           <Button asChild variant="ghost" size="icon" aria-label="Shopping Cart">
+           <Button asChild variant="ghost" size="icon" aria-label="Shopping Cart" className="relative">
             <Link href="/cart">
               <ShoppingCart className="h-5 w-5" />
+              {isMounted && items.length > 0 && (
+                <Badge variant="destructive" className="absolute -right-2 -top-2 h-5 w-5 justify-center p-0 text-xs">
+                  {totalItems}
+                </Badge>
+              )}
             </Link>
           </Button>
           <Button asChild variant="ghost" size="icon" aria-label="About the Chef">

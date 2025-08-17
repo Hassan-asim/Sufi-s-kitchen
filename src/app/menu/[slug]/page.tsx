@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { dishes, todaysSpecialDishes } from "@/lib/data";
@@ -5,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { ReviewCard } from "@/components/review-card";
 import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/hooks/use-cart";
+import { useToast } from "@/hooks/use-toast";
 
 type DishDetailPageProps = {
   params: {
@@ -13,12 +17,23 @@ type DishDetailPageProps = {
 };
 
 export default function DishDetailPage({ params }: DishDetailPageProps) {
+  const { addItem } = useCart();
+  const { toast } = useToast();
+  
   const allDishes = [...dishes, ...todaysSpecialDishes];
   const dish = allDishes.find((d) => d.slug === params.slug);
 
   if (!dish) {
     notFound();
   }
+  
+  const handleAddToCart = () => {
+    addItem(dish);
+    toast({
+      title: "Added to Cart!",
+      description: `${dish.name} has been added to your cart.`,
+    });
+  };
 
   const averageRating =
     dish.reviews.length > 0
@@ -60,7 +75,7 @@ export default function DishDetailPage({ params }: DishDetailPageProps) {
           <p className="text-lg text-foreground/80">{dish.longDescription}</p>
           <div className="flex items-center justify-between">
             <p className="text-2xl font-bold text-primary">PKR {dish.price.toFixed(2)}</p>
-            <Button size="lg">
+            <Button size="lg" onClick={handleAddToCart}>
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Add to Cart
             </Button>

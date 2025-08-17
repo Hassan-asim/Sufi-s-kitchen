@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/hooks/use-cart";
 
 interface MenuItemCardProps {
   dish: Dish;
@@ -14,8 +15,10 @@ interface MenuItemCardProps {
 
 export function MenuItemCard({ dish }: MenuItemCardProps) {
   const { toast } = useToast();
+  const { addItem } = useCart();
 
   const handleAddToCart = () => {
+    addItem(dish);
     toast({
       title: "Added to Cart!",
       description: `${dish.name} has been added to your cart.`,

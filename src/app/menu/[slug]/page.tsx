@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { dishes, eidSpecialDishes } from "@/lib/data";
+import { dishes, todaysSpecialDishes } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { ReviewCard } from "@/components/review-card";
 import { Star, ShoppingCart } from "lucide-react";
@@ -13,7 +13,7 @@ type DishDetailPageProps = {
 };
 
 export default function DishDetailPage({ params }: DishDetailPageProps) {
-  const allDishes = [...dishes, ...eidSpecialDishes];
+  const allDishes = [...dishes, ...todaysSpecialDishes];
   const dish = allDishes.find((d) => d.slug === params.slug);
 
   if (!dish) {

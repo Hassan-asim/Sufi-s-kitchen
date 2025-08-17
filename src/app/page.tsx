@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { dishes, eidSpecialDishes } from "@/lib/data";
+import { dishes, todaysSpecialDishes } from "@/lib/data";
 import { MenuItemCard } from "@/components/menu-item-card";
 import { Button } from "@/components/ui/button";
 import { JaliPattern } from "@/components/icons/jali-pattern";
@@ -44,29 +44,28 @@ export default function Home() {
       <section className="container mx-auto">
         <div className="bg-card rounded-xl p-8 md:p-12 border flex flex-col md:flex-row items-center gap-8 shadow-lg">
           <div className="flex-1">
-            <h3 className="text-3xl font-bold font-headline text-accent">Eid Specials</h3>
+            <h3 className="text-3xl font-bold font-headline text-accent">Today's Specials</h3>
             <p className="text-muted-foreground mt-2 mb-6">
-              Celebrate with our exclusive dishes, specially prepared for the
-              joyous occasion of Eid.
+              Our weekly specials, available for a limited time. Don't miss out!
             </p>
             <Button asChild>
-              <Link href="#eid-specials">
+              <Link href="#todays-specials">
                 Explore Specials <ArrowRight className="ml-2" />
               </Link>
             </Button>
           </div>
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {eidSpecialDishes.slice(0, 2).map((dish) => (
+            {todaysSpecialDishes.slice(0, 2).map((dish) => (
               <MenuItemCard key={dish.id} dish={dish} />
             ))}
           </div>
         </div>
       </section>
 
-      <section id="eid-specials" className="container mx-auto">
-        <h3 className="text-3xl font-bold font-headline mb-6 text-center text-accent">All Eid Specials</h3>
+      <section id="todays-specials" className="container mx-auto">
+        <h3 className="text-3xl font-bold font-headline mb-6 text-center text-accent">All Today's Specials</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-          {eidSpecialDishes.map((dish) => (
+          {todaysSpecialDishes.map((dish) => (
             <MenuItemCard key={dish.id} dish={dish} />
           ))}
         </div>

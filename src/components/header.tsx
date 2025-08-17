@@ -9,7 +9,7 @@ import { JaliPattern } from "./icons/jali-pattern";
 
 const navLinks = [
   { href: "/", label: "Menu" },
-  { href: "/sufi-recipe", label: "Sufi Recipe" },
+  { href: "/events", label: "Events" },
 ];
 
 export function Header() {

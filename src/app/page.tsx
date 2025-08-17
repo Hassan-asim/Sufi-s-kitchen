@@ -25,7 +25,7 @@ export default function Home() {
             <Link href="#featured">View Menu</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/sufi-recipe">Sufi Recipe</Link>
+            <Link href="/events">Our Events</Link>
           </Button>
         </div>
       </section>

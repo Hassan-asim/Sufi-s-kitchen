@@ -32,8 +32,8 @@ export const dishes: Dish[] = [
     longDescription:
       "A classic Pakistani dish, Chicken Karahi is known for its robust and spicy flavor, cooked with tomatoes, ginger, garlic, and green chilies in a traditional wok-like pan called a karahi. It's a staple in Pakistani households and restaurants alike, loved for its simple yet profound taste.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "chicken curry",
-    price: 12.99,
+    aiHint: "chicken karahi",
+    price: 1250.00,
     ingredients: [
       "Chicken",
       "Tomatoes",
@@ -70,8 +70,8 @@ export const dishes: Dish[] = [
     longDescription:
       "Beef Biryani is a celebratory dish made with layers of fragrant basmati rice, tender, marinated beef, and a blend of aromatic spices like saffron, cardamom, and cloves. Garnished with fried onions and fresh herbs, it's a complete meal that's both hearty and incredibly flavorful.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "beef rice",
-    price: 14.99,
+    aiHint: "beef biryani",
+    price: 1500.00,
     ingredients: [
       "Basmati Rice",
       "Beef",
@@ -100,8 +100,8 @@ export const dishes: Dish[] = [
     longDescription:
       "Chana Chaat is a popular Pakistani street food snack. It's a vibrant and refreshing salad made with boiled chickpeas, potatoes, onions, and tomatoes, tossed in a mix of spices and tangy tamarind chutney. It's the perfect light meal or appetizer.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "chickpea salad",
-    price: 6.99,
+    aiHint: "chana chaat",
+    price: 450.00,
     ingredients: [
       "Chickpeas",
       "Potatoes",
@@ -122,8 +122,8 @@ export const dishes: Dish[] = [
     longDescription:
       "A beloved snack across South Asia, the samosa is a fried or baked pastry with a savory filling, such as spiced potatoes, onions, peas, or minced meat. Its triangular shape is iconic, and it's often served with a side of mint or tamarind chutney.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "savory pastry",
-    price: 4.99,
+    aiHint: "samosas",
+    price: 300.00,
     ingredients: ["Potatoes", "Peas", "Spices", "Flour Pastry", "Minced Meat (optional)"],
     reviews: [
       {
@@ -148,8 +148,8 @@ export const eidSpecialDishes: Dish[] = [
     longDescription:
       "Sheer Khurma is a traditional festive breakfast and dessert for celebrations like Eid. It's a rich and creamy vermicelli pudding made with milk, sweetened with sugar, and flavored with dates, pistachios, almonds, and saffron. It's a dish that symbolizes joy and togetherness.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "sweet pudding",
-    price: 8.99,
+    aiHint: "sheer khurma",
+    price: 750.00,
     ingredients: ["Vermicelli", "Milk", "Sugar", "Dates", "Pistachios", "Almonds", "Saffron"],
     occasion: "eid",
     reviews: [
@@ -172,8 +172,8 @@ export const eidSpecialDishes: Dish[] = [
     longDescription:
       "Mutton Korma is a quintessential celebratory dish, often gracing tables during Eid and other special occasions. Tender pieces of mutton are slow-cooked in a creamy, fragrant sauce made from yogurt, fried onions, and a delicate blend of whole and ground spices. The result is a rich, aromatic curry with a velvety texture that pairs perfectly with naan or rice.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "mutton curry",
-    price: 16.99,
+    aiHint: "mutton korma",
+    price: 1800.00,
     ingredients: [
       "Mutton",
       "Yogurt",

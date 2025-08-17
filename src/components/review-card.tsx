@@ -10,7 +10,7 @@ interface ReviewCardProps {
 
 export function ReviewCard({ review }: ReviewCardProps) {
   return (
-    <Card className="bg-background">
+    <Card className="bg-background shadow-md hover:shadow-lg transition-shadow">
       <CardContent className="p-4 flex gap-4">
         <Avatar>
           <AvatarImage src={review.avatar} alt={review.name} data-ai-hint="person" />
@@ -18,15 +18,15 @@ export function ReviewCard({ review }: ReviewCardProps) {
         </Avatar>
         <div className="flex-1">
           <div className="flex items-center justify-between mb-1">
-            <p className="font-semibold">{review.name}</p>
+            <p className="font-semibold text-primary">{review.name}</p>
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
                   className={`w-4 h-4 ${
                     i < review.rating
-                      ? "text-primary fill-primary"
-                      : "text-muted-foreground/50"
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-muted-foreground/30"
                   }`}
                 />
               ))}

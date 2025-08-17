@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { dishes, eidSpecialDishes } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { ReviewCard } from "@/components/review-card";
-import { Star } from "lucide-react";
+import { Star, ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type DishDetailPageProps = {
   params: {
@@ -49,7 +50,7 @@ export default function DishDetailPage({ params }: DishDetailPageProps) {
                 <>
                 <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`w-5 h-5 ${ i < Math.round(averageRating) ? "text-primary fill-primary" : "text-muted-foreground/30" }`} />
+                        <Star key={i} className={`w-5 h-5 ${ i < Math.round(averageRating) ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground/30" }`} />
                     ))}
                 </div>
                 <span className="text-muted-foreground font-medium">({dish.reviews.length} reviews)</span>
@@ -57,7 +58,13 @@ export default function DishDetailPage({ params }: DishDetailPageProps) {
             )}
             </div>
           <p className="text-lg text-foreground/80">{dish.longDescription}</p>
-          <p className="text-2xl font-bold text-primary">${dish.price.toFixed(2)}</p>
+          <div className="flex items-center justify-between">
+            <p className="text-2xl font-bold text-primary">PKR {dish.price.toFixed(2)}</p>
+            <Button size="lg">
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Add to Cart
+            </Button>
+          </div>
 
           <div>
             <h3 className="text-xl font-semibold font-headline mb-2">

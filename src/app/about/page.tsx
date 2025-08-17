@@ -35,12 +35,12 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="md:col-span-2">
-              <h3 className="text-2xl font-headline font-semibold text-primary">Chef Ahmed Sufi</h3>
+              <h3 className="text-2xl font-headline font-semibold text-primary">Chef Sufi Asim Iftikhar</h3>
               <p className="mt-4 text-foreground/80">
-                With over 20 years of experience steeped in the rich traditions of Pakistani kitchens, Chef Ahmed brings a philosophy of 'cooking with soul' to every dish. His journey began in the bustling streets of Lahore, where he learned the art of spice blending and slow-cooking from his grandmother.
+                A certified chef from Punjab, Lahore, with over 20 years of experience steeped in the rich traditions of Pakistani kitchens, Chef Sufi Asim Iftikhar brings a philosophy of 'cooking with soul' to every dish. He has expertise in all types of traditional and continental foods. His journey began in the bustling streets of Lahore, where he learned the art of spice blending and slow-cooking from his grandmother.
               </p>
               <p className="mt-4 text-foreground/80">
-                Chef Ahmed believes that food is a spiritual experience, a way to connect with our heritage and with each other. At Sufi's Kitchen, he combines age-old family recipes with a touch of modern artistry, ensuring that every meal is not just eaten, but felt. His passion is to share the authentic, soulful flavors of Pakistan with the world.
+                Chef Asim believes that food is a spiritual experience, a way to connect with our heritage and with each other. At Sufi's Kitchen, he combines age-old family recipes with a touch of modern artistry, ensuring that every meal is not just eaten, but felt. His passion is to share the authentic, soulful flavors of Pakistan with the world.
               </p>
             </div>
           </div>

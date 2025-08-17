@@ -26,7 +26,11 @@ export const GenerateSufiRecipeOutputSchema = z.object({
 export type GenerateSufiRecipeOutput = z.infer<typeof GenerateSufiRecipeOutputSchema>;
 
 export async function generateSufiRecipe(input: GenerateSufiRecipeInput): Promise<GenerateSufiRecipeOutput> {
-  return generateSufiRecipeFlow(input);
+  const {output} = await generateSufiRecipeFlow(input);
+  if (!output) {
+    throw new Error('Failed to generate recipe.');
+  }
+  return output;
 }
 
 const prompt = ai.definePrompt({
@@ -57,6 +61,6 @@ const generateSufiRecipeFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    return { output };
   }
 );

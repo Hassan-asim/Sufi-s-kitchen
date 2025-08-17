@@ -47,6 +47,7 @@ export default function SufiRecipePage() {
       const result = await generateSufiRecipe(data);
       setGeneratedRecipe(result);
     } catch (error) {
+      console.error(error);
       toast({
         title: 'Error Generating Recipe',
         description: 'There was an issue creating your recipe. Please try again.',
@@ -67,8 +68,8 @@ export default function SufiRecipePage() {
       </div>
 
       <div className="max-w-3xl mx-auto">
-        <Card className="relative overflow-hidden">
-           <JaliPattern className="absolute top-0 left-0 w-full h-full text-primary/5 dark:text-primary/10 -z-0 opacity-50" />
+        <Card className="relative overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+           <JaliPattern className="absolute top-0 left-0 w-full h-full text-primary/5 dark:text-primary/10 -z-0 opacity-20" />
           <CardHeader>
             <CardTitle>Create a New Recipe</CardTitle>
             <CardDescription>
@@ -101,7 +102,7 @@ export default function SufiRecipePage() {
               </div>
             </CardContent>
             <CardFooter className="flex justify-end">
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading} className="bg-gradient-to-r from-green-500 to-teal-500 text-white">
                 {isLoading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
@@ -121,9 +122,9 @@ export default function SufiRecipePage() {
         )}
 
         {generatedRecipe && (
-          <Card className="mt-8">
+          <Card className="mt-8 shadow-lg">
             <CardHeader>
-              <CardTitle className="font-headline text-3xl">{generatedRecipe.title}</CardTitle>
+              <CardTitle className="font-headline text-3xl bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-500">{generatedRecipe.title}</CardTitle>
               <CardDescription>{generatedRecipe.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -131,8 +132,8 @@ export default function SufiRecipePage() {
                 <h3 className="flex items-center text-xl font-semibold mb-3">
                   <ChefHat className="mr-2 text-primary" /> Ingredients
                 </h3>
-                 <Card className="p-4 bg-secondary/50">
-                    <ul className="list-disc list-inside space-y-1">
+                 <Card className="p-4 bg-green-50">
+                    <ul className="list-disc list-inside space-y-1 text-green-900">
                     {generatedRecipe.ingredients.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}

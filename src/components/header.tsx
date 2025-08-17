@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ChefHat, CookingPot } from "lucide-react";
+import { ChefHat, CookingPot, ShoppingCart } from "lucide-react";
 import { JaliPattern } from "./icons/jali-pattern";
 
 const navLinks = [
@@ -23,7 +23,7 @@ export function Header() {
       <div className="container flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <CookingPot className="h-7 w-7 text-primary" />
-          <span className="font-bold font-headline text-lg">
+          <span className="font-bold font-headline text-lg bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500">
             Sufi's Kitchen
           </span>
         </Link>
@@ -35,7 +35,7 @@ export function Header() {
               className={cn(
                 "transition-colors hover:text-foreground/80",
                 pathname.startsWith(link.href) && link.href !== '/' || pathname === link.href
-                  ? "text-foreground"
+                  ? "text-foreground font-semibold"
                   : "text-foreground/60"
               )}
             >
@@ -44,6 +44,11 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
+           <Button asChild variant="ghost" size="icon" aria-label="Shopping Cart">
+            <Link href="/cart">
+              <ShoppingCart className="h-5 w-5" />
+            </Link>
+          </Button>
           <Button asChild variant="ghost" size="icon" aria-label="About the Chef">
             <Link href="/about">
               <ChefHat className="h-5 w-5" />

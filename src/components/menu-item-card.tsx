@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { Dish } from "@/lib/data";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "./ui/button";
+import { ShoppingCart } from "lucide-react";
 
 interface MenuItemCardProps {
   dish: Dish;
@@ -12,7 +13,7 @@ interface MenuItemCardProps {
 
 export function MenuItemCard({ dish }: MenuItemCardProps) {
   return (
-    <Card className="flex flex-col overflow-hidden h-full group/card transition-all hover:shadow-xl hover:-translate-y-1">
+    <Card className="flex flex-col overflow-hidden h-full group/card transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 rounded-xl border-border/10">
       <CardHeader className="p-0">
         <Link href={`/menu/${dish.slug}`} className="block relative">
           <div className="overflow-hidden aspect-[4/3] relative">
@@ -20,7 +21,7 @@ export function MenuItemCard({ dish }: MenuItemCardProps) {
               src={dish.image}
               alt={dish.name}
               fill
-              className="object-cover transition-transform group-hover/card:scale-105"
+              className="object-cover transition-transform duration-300 group-hover/card:scale-110"
               data-ai-hint={dish.aiHint}
             />
             <div className="steam group-hover/card:opacity-100">
@@ -34,15 +35,16 @@ export function MenuItemCard({ dish }: MenuItemCardProps) {
       <CardContent className="p-4 flex-grow flex flex-col">
         <div className="flex-grow">
           <CardTitle className="text-lg font-headline mb-1">
-            <Link href={`/menu/${dish.slug}`}>{dish.name}</Link>
+            <Link href={`/menu/${dish.slug}`} className="hover:text-primary transition-colors">{dish.name}</Link>
           </CardTitle>
           <CardDescription>{dish.description}</CardDescription>
         </div>
       </CardContent>
        <CardFooter className="p-4 pt-0 flex justify-between items-center">
-          <p className="text-lg font-bold text-primary">${dish.price.toFixed(2)}</p>
-          <Button asChild size="sm" variant="secondary">
-            <Link href={`/menu/${dish.slug}`}>View</Link>
+          <p className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">PKR {dish.price.toFixed(2)}</p>
+          <Button size="sm" className="bg-gradient-to-r from-green-500 to-teal-500 text-white">
+            <ShoppingCart className="mr-2 h-4 w-4" />
+            Add
           </Button>
         </CardFooter>
     </Card>

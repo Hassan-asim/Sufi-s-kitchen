@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ChefHat, CookingPot, ShoppingCart } from "lucide-react";
+import { ChefHat, ShoppingCart } from "lucide-react";
 import { JaliPattern } from "./icons/jali-pattern";
 
 const navLinks = [
@@ -20,12 +20,10 @@ export function Header() {
       <div className="absolute top-0 left-0 w-full h-full text-primary/5 dark:text-primary/10 -z-10 overflow-hidden">
         <JaliPattern className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-auto opacity-20" />
       </div>
-      <div className="container flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <CookingPot className="h-7 w-7 text-primary" />
-          <span className="font-bold font-headline text-lg bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500">
-            Sufi's Kitchen
-          </span>
+      <div className="container flex h-20 items-center">
+        <Link href="/" className="mr-6 flex flex-col items-center justify-center">
+          <span className="font-urdu text-4xl font-bold text-primary">صوفی</span>
+          <span className="font-headline text-lg font-semibold -mt-2 text-foreground">Kitchen</span>
         </Link>
         <nav className="flex items-center space-x-4 lg:space-x-6 text-sm font-medium">
           {navLinks.map((link) => (

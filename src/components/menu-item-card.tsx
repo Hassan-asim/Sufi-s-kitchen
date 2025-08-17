@@ -13,7 +13,7 @@ interface MenuItemCardProps {
 
 export function MenuItemCard({ dish }: MenuItemCardProps) {
   return (
-    <Card className="flex flex-col overflow-hidden h-full group/card transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 rounded-xl border-border/10">
+    <Card className="flex flex-col overflow-hidden h-full group/card transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 rounded-xl border">
       <CardHeader className="p-0">
         <Link href={`/menu/${dish.slug}`} className="block relative">
           <div className="overflow-hidden aspect-[4/3] relative">
@@ -41,8 +41,8 @@ export function MenuItemCard({ dish }: MenuItemCardProps) {
         </div>
       </CardContent>
        <CardFooter className="p-4 pt-0 flex justify-between items-center">
-          <p className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">PKR {dish.price.toFixed(2)}</p>
-          <Button size="sm" className="bg-gradient-to-r from-green-500 to-teal-500 text-white">
+          <p className="text-lg font-bold text-primary">PKR {dish.price.toFixed(2)}</p>
+          <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
             <ShoppingCart className="mr-2 h-4 w-4" />
             Add
           </Button>

@@ -5,11 +5,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
-import {
-  generateSufiRecipe,
-  GenerateSufiRecipeOutput,
-  GenerateSufiRecipeInputSchema,
-} from '@/ai/flows/generate-sufi-recipe';
+import { generateSufiRecipe } from '@/ai/flows/generate-sufi-recipe';
+import type { GenerateSufiRecipeOutput } from '@/ai/schemas';
+import { GenerateSufiRecipeInputSchema } from '@/ai/schemas';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -102,7 +100,7 @@ export default function SufiRecipePage() {
               </div>
             </CardContent>
             <CardFooter className="flex justify-end">
-              <Button type="submit" disabled={isLoading} className="bg-gradient-to-r from-green-500 to-teal-500 text-white">
+              <Button type="submit" disabled={isLoading}>
                 {isLoading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
@@ -124,16 +122,16 @@ export default function SufiRecipePage() {
         {generatedRecipe && (
           <Card className="mt-8 shadow-lg">
             <CardHeader>
-              <CardTitle className="font-headline text-3xl bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-500">{generatedRecipe.title}</CardTitle>
+              <CardTitle className="font-headline text-3xl text-primary">{generatedRecipe.title}</CardTitle>
               <CardDescription>{generatedRecipe.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <h3 className="flex items-center text-xl font-semibold mb-3">
-                  <ChefHat className="mr-2 text-primary" /> Ingredients
+                <h3 className="flex items-center text-xl font-semibold mb-3 text-accent">
+                  <ChefHat className="mr-2" /> Ingredients
                 </h3>
-                 <Card className="p-4 bg-green-50">
-                    <ul className="list-disc list-inside space-y-1 text-green-900">
+                 <Card className="p-4 bg-muted/50">
+                    <ul className="list-disc list-inside space-y-1 text-foreground">
                     {generatedRecipe.ingredients.map((item, index) => (
                         <li key={index}>{item}</li>
                     ))}
@@ -141,8 +139,8 @@ export default function SufiRecipePage() {
                 </Card>
               </div>
               <div>
-                <h3 className="flex items-center text-xl font-semibold mb-3">
-                  <Soup className="mr-2 text-primary" /> Instructions
+                <h3 className="flex items-center text-xl font-semibold mb-3 text-accent">
+                  <Soup className="mr-2" /> Instructions
                 </h3>
                 <div className="space-y-4">
                   {generatedRecipe.instructions.map((step, index) => (

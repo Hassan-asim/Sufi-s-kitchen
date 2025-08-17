@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-16 md:gap-24 py-8 md:py-12">
       <section className="relative container mx-auto text-center flex flex-col items-center gap-4">
-        <JaliPattern className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-auto text-primary/5 dark:text-primary/10 -z-10" />
-        <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground/80 to-foreground">
+        <JaliPattern className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-auto text-primary/10 -z-10" />
+        <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-foreground">
           Sufi's Kitchen
         </h1>
         <h2 className="text-4xl md:text-6xl font-urdu text-primary font-bold">
@@ -21,7 +21,7 @@ export default function Home() {
           Experience tradition, taste, and togetherness in every dish.
         </p>
         <div className="flex gap-4 mt-4">
-          <Button asChild size="lg">
+          <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
             <Link href="#featured">View Menu</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
@@ -31,7 +31,7 @@ export default function Home() {
       </section>
 
       <section id="featured" className="container mx-auto">
-        <h3 className="text-3xl font-bold font-headline mb-6">
+        <h3 className="text-3xl font-bold font-headline mb-6 text-center text-accent">
           Featured Dishes
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
@@ -44,7 +44,7 @@ export default function Home() {
       <section className="container mx-auto">
         <div className="bg-card rounded-xl p-8 md:p-12 border flex flex-col md:flex-row items-center gap-8 shadow-lg">
           <div className="flex-1">
-            <h3 className="text-3xl font-bold font-headline">Eid Specials</h3>
+            <h3 className="text-3xl font-bold font-headline text-accent">Eid Specials</h3>
             <p className="text-muted-foreground mt-2 mb-6">
               Celebrate with our exclusive dishes, specially prepared for the
               joyous occasion of Eid.
@@ -64,7 +64,7 @@ export default function Home() {
       </section>
 
       <section id="eid-specials" className="container mx-auto">
-        <h3 className="text-3xl font-bold font-headline mb-6">All Eid Specials</h3>
+        <h3 className="text-3xl font-bold font-headline mb-6 text-center text-accent">All Eid Specials</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
           {eidSpecialDishes.map((dish) => (
             <MenuItemCard key={dish.id} dish={dish} />

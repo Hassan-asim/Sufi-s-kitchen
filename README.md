@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-Sufi's kitchen web appp
+# Sufi's Kitchen
 
->>>>>>> b6dce9e86da4ff142e13bf3c64f078c93fd60c03
+This is a web application for Sufi's Kitchen, a restaurant specializing in authentic Pakistani cuisine.
 
-To get started, take a look at src/app/page.tsx.
+To get started with development, take a look at the code in the `src/app` directory.

@@ -9,7 +9,7 @@ import { JaliPattern } from "./icons/jali-pattern";
 
 const navLinks = [
   { href: "/", label: "Menu" },
-  { href: "/ai-tools", label: "AI Tools" },
+  { href: "/sufi-recipe", label: "Sufi Recipe" },
 ];
 
 export function Header() {
@@ -34,7 +34,7 @@ export function Header() {
               href={link.href}
               className={cn(
                 "transition-colors hover:text-foreground/80",
-                pathname === link.href
+                pathname.startsWith(link.href) && link.href !== '/' || pathname === link.href
                   ? "text-foreground"
                   : "text-foreground/60"
               )}
@@ -44,8 +44,10 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
-          <Button variant="ghost" size="icon" aria-label="User Profile">
-            <ChefHat className="h-5 w-5" />
+          <Button asChild variant="ghost" size="icon" aria-label="About the Chef">
+            <Link href="/about">
+              <ChefHat className="h-5 w-5" />
+            </Link>
           </Button>
         </div>
       </div>

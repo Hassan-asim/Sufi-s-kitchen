@@ -25,7 +25,7 @@ export default function Home() {
             <Link href="#featured">View Menu</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/ai-tools">AI Tools</Link>
+            <Link href="/sufi-recipe">Sufi Recipe</Link>
           </Button>
         </div>
       </section>
@@ -42,7 +42,7 @@ export default function Home() {
       </section>
 
       <section className="container mx-auto">
-        <div className="bg-card rounded-xl p-8 md:p-12 border flex flex-col md:flex-row items-center gap-8">
+        <div className="bg-card rounded-xl p-8 md:p-12 border flex flex-col md:flex-row items-center gap-8 shadow-lg">
           <div className="flex-1">
             <h3 className="text-3xl font-bold font-headline">Eid Specials</h3>
             <p className="text-muted-foreground mt-2 mb-6">

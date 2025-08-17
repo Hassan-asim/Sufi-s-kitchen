@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background: 60 56% 91%; /* Desaturated light yellow */
-    --foreground: 43 15% 20%;
+    --background: 24 22% 96%; /* Off-white, like aged paper */
+    --foreground: 24 10% 20%;
 
-    --card: 60 50% 95%;
-    --card-foreground: 43 15% 20%;
+    --card: 24 22% 100%;
+    --card-foreground: 24 10% 20%;
 
-    --popover: 60 50% 95%;
-    --popover-foreground: 43 15% 20%;
+    --popover: 24 22% 100%;
+    --popover-foreground: 24 10% 20%;
+    
+    --primary: 158 44% 30%; /* Deep Sufi green */
+    --primary-foreground: 34 50% 95%;
 
-    --primary: 43 100% 50%; /* Saffron yellow */
-    --primary-foreground: 43 100% 10%;
+    --secondary: 34 78% 91%; /* Light sand/gold */
+    --secondary-foreground: 34 40% 20%;
+    
+    --muted: 24 15% 88%;
+    --muted-foreground: 24 10% 45%;
 
-    --secondary: 43 95% 70%;
-    --secondary-foreground: 43 100% 10%;
-
-    --muted: 60 20% 85%;
-    --muted-foreground: 60 10% 45%;
-
-    --accent: 0 69% 50%; /* Chili red */
+    --accent: 356 70% 47%; /* Deep maroon/red */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 60 20% 80%;
-    --input: 60 20% 88%;
-    --ring: 43 100% 50%;
+    --border: 24 15% 80%;
+    --input: 24 15% 88%;
+    --ring: 158 44% 40%;
 
     --radius: 0.8rem;
     
@@ -44,34 +44,34 @@
     --sidebar-ring: 43 100% 50%;
   }
   .dark {
-    --background: 43 10% 10%;
-    --foreground: 60 56% 91%;
+    --background: 24 10% 12%; 
+    --foreground: 24 22% 92%;
 
-    --card: 43 10% 15%;
-    --card-foreground: 60 56% 91%;
+    --card: 24 10% 16%;
+    --card-foreground: 24 22% 92%;
 
-    --popover: 43 10% 15%;
-    --popover-foreground: 60 56% 91%;
+    --popover: 24 10% 16%;
+    --popover-foreground: 24 22% 92%;
 
-    --primary: 43 100% 50%;
-    --primary-foreground: 43 100% 10%;
+    --primary: 158 44% 38%; /* Deep Sufi green */
+    --primary-foreground: 34 50% 95%;
 
-    --secondary: 43 20% 20%;
-    --secondary-foreground: 60 56% 91%;
+    --secondary: 34 40% 20%;
+    --secondary-foreground: 34 78% 91%;
+    
+    --muted: 24 10% 22%;
+    --muted-foreground: 24 15% 65%;
 
-    --muted: 43 15% 25%;
-    --muted-foreground: 60 20% 70%;
-
-    --accent: 0 69% 50%;
+    --accent: 356 70% 55%; /* Deep maroon/red */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 43 10% 25%;
-    --input: 43 10% 25%;
-    --ring: 43 100% 50%;
-
+    --border: 24 10% 25%;
+    --input: 24 10% 25%;
+    --ring: 158 44% 45%;
+    
     --sidebar-background: 43 10% 12%;
     --sidebar-foreground: 60 56% 91%;
     --sidebar-primary: 43 100% 50%;

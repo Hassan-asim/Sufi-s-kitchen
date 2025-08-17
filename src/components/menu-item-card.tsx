@@ -6,12 +6,22 @@ import type { Dish } from "@/lib/data";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface MenuItemCardProps {
   dish: Dish;
 }
 
 export function MenuItemCard({ dish }: MenuItemCardProps) {
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    toast({
+      title: "Added to Cart!",
+      description: `${dish.name} has been added to your cart.`,
+    });
+  };
+  
   return (
     <Card className="flex flex-col overflow-hidden h-full group/card transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 rounded-xl border">
       <CardHeader className="p-0">
@@ -42,7 +52,7 @@ export function MenuItemCard({ dish }: MenuItemCardProps) {
       </CardContent>
        <CardFooter className="p-4 pt-0 flex justify-between items-center">
           <p className="text-lg font-bold text-primary">PKR {dish.price.toFixed(2)}</p>
-          <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
+          <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={handleAddToCart}>
             <ShoppingCart className="mr-2 h-4 w-4" />
             Add
           </Button>

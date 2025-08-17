@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { CalendarDays } from 'lucide-react';
+import { CalendarDays, Phone, MessageSquare } from 'lucide-react';
 import { JaliPattern } from '@/components/icons/jali-pattern';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import Link from 'next/link';
 
 const events = [
   {
@@ -82,7 +83,18 @@ export default function EventsPage() {
          <div className="text-center mt-16">
             <h3 className="text-2xl font-headline font-semibold">Want to book us for your next event?</h3>
             <p className="text-muted-foreground mt-2 mb-6">Let us make your special day even more memorable with our authentic cuisine.</p>
-            <Button size="lg">Contact Us</Button>
+            <div className="flex justify-center gap-4">
+              <Button asChild size="lg">
+                <a href="tel:03334616436">
+                  <Phone className="mr-2" /> Call Us
+                </a>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <a href="https://wa.me/923334616436" target="_blank" rel="noopener noreferrer">
+                  <MessageSquare className="mr-2" /> WhatsApp
+                </a>
+              </Button>
+            </div>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ import { GenerateSufiRecipeInputSchema, GenerateSufiRecipeOutputSchema } from '@
 import type { GenerateSufiRecipeInput, GenerateSufiRecipeOutput } from '@/ai/schemas';
 
 export async function generateSufiRecipe(input: GenerateSufiRecipeInput): Promise<GenerateSufiRecipeOutput> {
-  const {output} = await generateSufiRecipeFlow(input);
+  const output = await generateSufiRecipeFlow(input);
   if (!output) {
     throw new Error('Failed to generate recipe.');
   }
@@ -46,6 +46,6 @@ const generateSufiRecipeFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return { output };
+    return output!;
   }
 );

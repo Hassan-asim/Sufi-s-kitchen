@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   
-  // This useEffect will recalculate totals on initial load
+  // This useEffect will recalculate totals on initial load from localStorage
   useEffect(() => {
     useCart.getState()._recalculateTotals();
   }, [])

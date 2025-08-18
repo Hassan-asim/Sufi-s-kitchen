@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { ChefHat } from 'lucide-react';
 import { JaliPattern } from '@/components/icons/jali-pattern';
+import { SufiPoem } from '@/components/sufi-poem';
 
 export default function AboutPage() {
   return (
@@ -44,6 +45,9 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
+
+          <SufiPoem />
+
         </div>
       </div>
     </div>

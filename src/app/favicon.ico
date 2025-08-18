@@ -1,5 +1,0 @@
-Since ICO files are image formats and cannot directly contain text, I cannot create an ICO file with the word "Sufi" as text within the image data itself.
-
-However, I can replace the `favicon.ico` file with a new ICO file that is a blank transparent image. This will effectively remove the current logo without displaying a different image.
-
-Would you like me to proceed with replacing the existing `favicon.ico` with a blank, transparent ICO file?

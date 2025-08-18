@@ -20,6 +20,14 @@ const CartItemSchema = z.object({
   price: z.number(),
   quantity: z.number(),
   // Add other dish properties if needed, but keep it minimal for the order
+  image: z.string().optional(),
+  description: z.string().optional(),
+  longDescription: z.string().optional(),
+  aiHint: z.string().optional(),
+  ingredients: z.array(z.string()).optional(),
+  slug: z.string().optional(),
+  category: z.string().optional(),
+  reviews: z.array(z.any()).optional(),
 });
 
 // Define the structure for the customer's information
@@ -51,6 +59,49 @@ export async function processOrder(input: OrderInput): Promise<OrderOutput> {
   return processOrderFlow(input);
 }
 
+// A helper function to format the order into a nice HTML email body.
+function formatOrderAsHtml(orderId: string, input: OrderInput): string {
+  const itemsHtml = input.items.map(item => `
+    <tr>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.name} (x${item.quantity})</td>
+      <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">PKR ${(item.price * item.quantity).toFixed(2)}</td>
+    </tr>
+  `).join('');
+
+  return `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+      <h1 style="color: #FFB800;">New Order Received: #${orderId}</h1>
+      <p>A new order has been placed on the Sufi's Kitchen website.</p>
+      
+      <h2 style="border-bottom: 2px solid #FFB800; padding-bottom: 5px;">Customer Details</h2>
+      <p><strong>Name:</strong> ${input.customer.name}</p>
+      <p><strong>Phone:</strong> ${input.customer.phone}</p>
+      <p><strong>Address:</strong> ${input.customer.address}</p>
+      
+      <h2 style="border-bottom: 2px solid #FFB800; padding-bottom: 5px;">Order Details</h2>
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th style="padding: 8px; border-bottom: 2px solid #ddd; text-align: left;">Item</th>
+            <th style="padding: 8px; border-bottom: 2px solid #ddd; text-align: right;">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${itemsHtml}
+        </tbody>
+      </table>
+      
+      <h2 style="border-bottom: 2px solid #FFB800; padding-bottom: 5px;">Summary</h2>
+      <p><strong>Payment Method:</strong> <span style="font-weight: bold; color: #D42A2A;">${input.paymentMethod}</span></p>
+      <p style="font-size: 1.2em; font-weight: bold;"><strong>Total Amount:</strong> PKR ${input.totalPrice.toFixed(2)}</p>
+      
+      <p style="margin-top: 20px; font-size: 0.9em; color: #555;">
+        This is an automated notification. Please process the order accordingly.
+      </p>
+    </div>
+  `;
+}
+
 
 // Here we define the Genkit flow.
 const processOrderFlow = ai.defineFlow(
@@ -63,14 +114,45 @@ const processOrderFlow = ai.defineFlow(
     
     console.log("Processing order:", JSON.stringify(input, null, 2));
 
-    // ** BACKEND LOGIC GOES HERE **
-    // In a real application, you would:
-    // 1. Save the order to a database (e.g., Firestore).
-    // 2. Call an email service (e.g., SendGrid, Resend) to send the formatted receipt.
-    //    The email would be sent to: hassanasim337@gmail.com and aaoooz1@gmail.com
-    
-    // For now, we'll just simulate a successful order processing.
     const orderId = `SUFI-${Date.now()}`;
+    
+    // ** EMAIL LOGIC WOULD GO HERE **
+    // In a real application, you would use a service like Resend, SendGrid, or Mailgun
+    // to send the email. Below is a conceptual example of how you might do it with Resend.
+    
+    // 1. Install your chosen email provider's SDK: `npm install resend`
+    
+    // 2. Import it and initialize it with your API key (stored securely in environment variables)
+    //    import { Resend } from 'resend';
+    //    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    // 3. Format the email content.
+    const emailHtml = formatOrderAsHtml(orderId, input);
+    const toEmails = ['hassanasim337@gmail.com', 'aaoooz1@gmail.com'];
+    
+    // 4. Send the email.
+    /*
+    try {
+      await resend.emails.send({
+        from: 'Sufi\'s Kitchen <noreply@yourdomain.com>',
+        to: toEmails,
+        subject: `New Order Received: #${orderId}`,
+        html: emailHtml,
+      });
+      console.log(`Email sent successfully for order ${orderId}`);
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      // Decide if you want to fail the whole order if email fails.
+      // For now, we'll just log it and continue.
+    }
+    */
+    
+    console.log("----- EMAIL SIMULATION -----");
+    console.log("To:", toEmails.join(', '));
+    console.log("Subject:", `New Order Received: #${orderId}`);
+    console.log("Body (HTML would be sent):\n", emailHtml);
+    console.log("----------------------------");
+
     
     const message = input.paymentMethod === 'Easypaisa' 
       ? `Your order #${orderId} is confirmed! Please remember to send the receipt via WhatsApp.`

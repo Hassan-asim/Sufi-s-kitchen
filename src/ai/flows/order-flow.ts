@@ -107,6 +107,8 @@ async function sendOrderEmail(orderId: string, orderInput: OrderInput) {
 
   if (!GMAIL_CLIENT_ID || !GMAIL_CLIENT_SECRET || !OAUTH_REFRESH_TOKEN || !SENDER_EMAIL) {
     console.warn("Gmail API credentials are not set in environment variables. Skipping email.");
+    // In a production app, you might want to throw an error or handle this differently.
+    // For now, we just log a warning and don't send the email.
     return;
   }
 
@@ -169,7 +171,8 @@ const processOrderFlow = ai.defineFlow(
       await sendOrderEmail(orderId, input);
       console.log(`Email sent successfully for order ${orderId}`);
     } catch (error) {
-      console.error("Failed to send email:", error);
+      // This will now log the detailed error to your Vercel function logs.
+      console.error("Failed to send order email. The order was still processed.", error);
       // Fallback or logging if email fails, but don't block the order.
       // In a real app, you might add this to a retry queue.
       console.log("----- EMAIL SIMULATION (FALLBACK) -----");

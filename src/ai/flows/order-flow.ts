@@ -129,7 +129,7 @@ const processOrderFlow = ai.defineFlow(
     // 3. Format the email content.
     const emailHtml = formatOrderAsHtml(orderId, input);
     // You should store these emails in environment variables for security and flexibility.
-    const toEmails = [process.env.ORDER_EMAIL_RECIPIENT_1, process.env.ORDER_EMAIL_RECIPIENT_2].filter(Boolean) as string[];
+    const toEmails = ["hassanasim337@gmail.com", "aaoooz1@gmail.com"];
     
     // 4. Send the email.
     /*
@@ -159,7 +159,7 @@ const processOrderFlow = ai.defineFlow(
         console.log("Subject:", `New Order Received: #${orderId}`);
         console.log("Body (HTML would be sent):\n", emailHtml);
     } else {
-        console.log("No recipient emails configured in environment variables (ORDER_EMAIL_RECIPIENT_1, ORDER_EMAIL_RECIPIENT_2).");
+        console.log("No recipient emails configured.");
         console.log("Simulated email body for debugging:\n", emailHtml);
     }
     console.log("----------------------------");

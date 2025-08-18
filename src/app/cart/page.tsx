@@ -4,26 +4,53 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useCart } from '@/hooks/use-cart';
-import { CreditCard, ShoppingCart, PlusCircle, MinusCircle, Trash2 } from 'lucide-react';
+import { ShoppingCart, PlusCircle, MinusCircle, Trash2, Home, Wallet, Smartphone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
-// Inline SVG for JazzCash icon
-const JazzCashIcon = () => (
-    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.23 15.68l-4.24-4.24 1.41-1.41 2.83 2.83 5.66-5.66 1.41 1.41-7.07 7.07z" fill="#D42A2A"/>
-        <text x="5" y="19" fontFamily="Arial" fontSize="4" fill="white" className="font-bold">JAZZCASH</text>
-    </svg>
-);
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export default function CartPage() {
   const { items, removeItem, updateItemQuantity, clearCart, totalPrice } = useCart();
   const [isMounted, setIsMounted] = useState(false);
+  const [address, setAddress] = useState('');
+
+  const deliveryFee = totalPrice > 0 && totalPrice < 3000 ? 150 : 0;
+  const finalTotal = totalPrice + deliveryFee;
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const handlePlaceOrder = (paymentMethod: 'COD' | 'Easypaisa') => {
+    if (!address.trim()) {
+        alert('Please enter a delivery address.');
+        return;
+    }
+    // Here you would typically handle the order submission to a backend.
+    // For now, we'll just clear the cart and show a confirmation.
+    console.log({
+        paymentMethod,
+        address,
+        items,
+        total: finalTotal,
+    });
+    
+    // The dialog will handle the next steps
+  };
+
 
   if (!isMounted) {
     return null; // or a loading spinner
@@ -92,29 +119,63 @@ export default function CartPage() {
                     <CardTitle>Order Summary</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                     <div className="space-y-2">
+                        <Label htmlFor="address">Delivery Address</Label>
+                        <Input 
+                            id="address" 
+                            placeholder="Your address in Banigala" 
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                    </div>
+                    <Separator />
                     <div className="flex justify-between">
                         <p className="text-muted-foreground">Subtotal</p>
                         <p className="font-semibold">PKR {totalPrice.toFixed(2)}</p>
                     </div>
-                    <div className="flex justify-between">
-                        <p className="text-muted-foreground">Taxes & Fees</p>
-                        <p className="font-semibold">PKR 0.00</p>
+                     <div className="flex justify-between">
+                        <p className="text-muted-foreground">Delivery Fee</p>
+                        <p className="font-semibold">PKR {deliveryFee.toFixed(2)}</p>
                     </div>
+                    <p className="text-xs text-muted-foreground">Delivery is free for orders over PKR 3000.</p>
                     <Separator />
                     <div className="flex justify-between text-lg font-bold">
                         <p>Total</p>
-                        <p>PKR {totalPrice.toFixed(2)}</p>
+                        <p>PKR {finalTotal.toFixed(2)}</p>
                     </div>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-3">
-                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={items.length === 0}>
-                        <CreditCard className="mr-2 h-5 w-5" />
-                        Checkout with Stripe
+                     <Button className="w-full" disabled={items.length === 0 || !address.trim()} onClick={() => handlePlaceOrder('COD')}>
+                        <Wallet className="mr-2 h-5 w-5" />
+                        Cash on Delivery
                     </Button>
-                    <Button className="w-full bg-red-600 hover:bg-red-700 text-white" disabled={items.length === 0}>
-                        <JazzCashIcon />
-                        <span className="ml-2">Pay with JazzCash</span>
-                    </Button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                           <Button className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={items.length === 0 || !address.trim()}>
+                                <Smartphone className="mr-2 h-5 w-5" />
+                                Pay with Easypaisa
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>Easypaisa Payment</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Please transfer <span className="font-bold">PKR {finalTotal.toFixed(2)}</span> to the account number <span className="font-bold">03334616426</span>.
+                                <br/><br/>
+                                After payment, please send the transaction receipt to our WhatsApp number <span className="font-bold">03134567636</span> to confirm your order.
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => {
+                                handlePlaceOrder('Easypaisa');
+                                clearCart();
+                            }}>
+                                I Have Paid
+                            </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </CardFooter>
             </Card>
         </div>

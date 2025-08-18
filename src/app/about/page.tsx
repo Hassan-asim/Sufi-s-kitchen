@@ -14,9 +14,6 @@ export default function AboutPage() {
             <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight text-foreground">
               About the Chef
             </h1>
-             <h2 className="text-3xl md:text-4xl font-urdu text-primary font-bold mt-2">
-              شیف کے بارے میں
-            </h2>
             <p className="mt-4 text-lg text-muted-foreground">
               The heart and soul behind Sufi's Kitchen.
             </p>

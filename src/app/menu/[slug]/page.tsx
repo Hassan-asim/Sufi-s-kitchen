@@ -57,9 +57,6 @@ export default function DishDetailPage({ params }: DishDetailPageProps) {
           <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
             {dish.name}
           </h1>
-          <h2 className="text-3xl md:text-4xl font-urdu text-primary font-bold -mt-2">
-            {dish.nameUrdu}
-          </h2>
           <div className="flex items-center gap-2">
             {averageRating > 0 && (
                 <>

@@ -46,9 +46,6 @@ export default function EventsPage() {
           <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight text-foreground">
             Our Events
           </h1>
-          <h2 className="text-3xl md:text-4xl font-urdu text-primary font-bold mt-2">
-            ہماری تقریبات
-          </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Bringing the soulful taste of Sufi's Kitchen to your special occasions. Here's a glimpse of the events we've catered.
           </p>
@@ -85,12 +82,12 @@ export default function EventsPage() {
             <p className="text-muted-foreground mt-2 mb-6">Let us make your special day even more memorable with our authentic cuisine.</p>
             <div className="flex justify-center gap-4">
               <Button asChild size="lg">
-                <a href="tel:03334616436">
+                <a href="tel:+923334616426">
                   <Phone className="mr-2" /> Call Us
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <a href="https://wa.me/923334616436" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/923334616426" target="_blank" rel="noopener noreferrer">
                   <MessageSquare className="mr-2" /> WhatsApp
                 </a>
               </Button>

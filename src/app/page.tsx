@@ -13,16 +13,13 @@ export default function Home() {
         <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-foreground">
           Sufi's Kitchen
         </h1>
-        <h2 className="text-4xl md:text-6xl font-urdu text-primary font-bold">
-          صوفی کا باورچی خانہ
-        </h2>
         <p className="max-w-2xl text-lg text-foreground/80">
           A culinary journey into the heart of authentic Pakistani flavors.
           Experience tradition, taste, and togetherness in every dish.
         </p>
         <div className="flex gap-4 mt-4">
           <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link href="#featured">View Menu</Link>
+            <Link href="/menu">View Menu</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
             <Link href="/events">Our Events</Link>
@@ -35,7 +32,7 @@ export default function Home() {
           Featured Dishes
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-          {dishes.map((dish) => (
+          {dishes.slice(0, 4).map((dish) => (
             <MenuItemCard key={dish.id} dish={dish} />
           ))}
         </div>
@@ -49,7 +46,7 @@ export default function Home() {
               Our weekly specials, available for a limited time. Don't miss out!
             </p>
             <Button asChild>
-              <Link href="#todays-specials">
+              <Link href="/menu#todays-specials">
                 Explore Specials <ArrowRight className="ml-2" />
               </Link>
             </Button>
@@ -59,15 +56,6 @@ export default function Home() {
               <MenuItemCard key={dish.id} dish={dish} />
             ))}
           </div>
-        </div>
-      </section>
-
-      <section id="todays-specials" className="container mx-auto">
-        <h3 className="text-3xl font-bold font-headline mb-6 text-center text-accent">All Today's Specials</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-          {todaysSpecialDishes.map((dish) => (
-            <MenuItemCard key={dish.id} dish={dish} />
-          ))}
         </div>
       </section>
     </div>

@@ -8,6 +8,7 @@ import { ChefHat, ShoppingCart } from "lucide-react";
 import { JaliPattern } from "./icons/jali-pattern";
 import { useCart } from "@/hooks/use-cart";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./theme-toggle";
 
 const navLinks = [
   { href: "/", label: "Menu" },
@@ -31,7 +32,7 @@ export function Header() {
       </div>
       <div className="container flex h-20 items-center">
         <Link href="/" className="mr-6 flex flex-col items-center justify-center">
-          <span className="font-urdu text-4xl font-bold text-primary">صوفی</span>
+          <span className="font-headline text-2xl font-bold text-primary tracking-tighter">Sufi's</span>
           <span className="font-headline text-lg font-semibold -mt-2 text-foreground">Kitchen</span>
         </Link>
         <nav className="flex items-center space-x-4 lg:space-x-6 text-sm font-medium">
@@ -64,6 +65,7 @@ export function Header() {
               <ChefHat className="h-5 w-5" />
             </Link>
           </Button>
+          <ThemeToggle />
         </div>
       </div>
     </header>

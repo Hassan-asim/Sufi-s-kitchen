@@ -1,9 +1,9 @@
 'use server';
 /**
- * @fileOverview A flow to process customer orders.
+ * @fileOverview A flow to process customer orders and send email receipts.
  *
- * This file contains the Genkit flow for processing an order. It is designed
- * to be extensible for sending emails or saving to a database in the future.
+ * This file contains the Genkit flow for processing an order. It uses Nodemailer
+ * and the Gmail API to send a formatted HTML receipt to the restaurant owners.
  * 
  * - processOrder - A function that handles the order processing.
  * - OrderInput - The input type for the processOrder function.
@@ -12,32 +12,25 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { google } from 'googleapis';
+import nodemailer from 'nodemailer';
 
-// Define the structure for a single item in the cart
+// --- Zod Schemas for Input/Output validation ---
+
 const CartItemSchema = z.object({
   id: z.number(),
   name: z.string(),
   price: z.number(),
   quantity: z.number(),
-  // Add other dish properties if needed, but keep it minimal for the order
   image: z.string().optional(),
-  description: z.string().optional(),
-  longDescription: z.string().optional(),
-  aiHint: z.string().optional(),
-  ingredients: z.array(z.string()).optional(),
-  slug: z.string().optional(),
-  category: z.string().optional(),
-  reviews: z.array(z.any()).optional(),
 });
 
-// Define the structure for the customer's information
 const CustomerInfoSchema = z.object({
   name: z.string().describe("Customer's full name"),
   phone: z.string().describe("Customer's contact phone number"),
   address: z.string().describe("Customer's full delivery address"),
 });
 
-// Define the input schema for the order processing flow
 const OrderInputSchema = z.object({
   customer: CustomerInfoSchema,
   items: z.array(CartItemSchema).describe("The list of items in the cart"),
@@ -46,7 +39,6 @@ const OrderInputSchema = z.object({
 });
 export type OrderInput = z.infer<typeof OrderInputSchema>;
 
-// Define the output schema for the flow
 const OrderOutputSchema = z.object({
   success: z.boolean().describe("Whether the order was processed successfully"),
   orderId: z.string().describe("A unique ID for the processed order"),
@@ -54,12 +46,10 @@ const OrderOutputSchema = z.object({
 });
 export type OrderOutput = z.infer<typeof OrderOutputSchema>;
 
-// This is the main function that the frontend will call.
-export async function processOrder(input: OrderInput): Promise<OrderOutput> {
-  return processOrderFlow(input);
-}
 
-// A helper function to format the order into a nice HTML email body.
+// --- Email Sending Logic ---
+
+// Helper function to format the order into a nice HTML email body.
 function formatOrderAsHtml(orderId: string, input: OrderInput): string {
   const itemsHtml = input.items.map(item => `
     <tr>
@@ -102,8 +92,68 @@ function formatOrderAsHtml(orderId: string, input: OrderInput): string {
   `;
 }
 
+/**
+ * Sends the order confirmation email using the Gmail API.
+ * @param orderId - The unique ID for the order.
+ * @param orderInput - The details of the order.
+ */
+async function sendOrderEmail(orderId: string, orderInput: OrderInput) {
+  const {
+    GMAIL_CLIENT_ID,
+    GMAIL_CLIENT_SECRET,
+    OAUTH_REFRESH_TOKEN,
+    SENDER_EMAIL
+  } = process.env;
 
-// Here we define the Genkit flow.
+  if (!GMAIL_CLIENT_ID || !GMAIL_CLIENT_SECRET || !OAUTH_REFRESH_TOKEN || !SENDER_EMAIL) {
+    console.warn("Gmail API credentials are not set in environment variables. Skipping email.");
+    return;
+  }
+
+  const OAuth2 = google.auth.OAuth2;
+  const oauth2Client = new OAuth2(
+    GMAIL_CLIENT_ID,
+    GMAIL_CLIENT_SECRET,
+    "https://developers.google.com/oauthplayground" // Redirect URL
+  );
+
+  oauth2Client.setCredentials({
+    refresh_token: OAUTH_REFRESH_TOKEN,
+  });
+
+  const accessToken = await oauth2Client.getAccessToken();
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: SENDER_EMAIL,
+      clientId: GMAIL_CLIENT_ID,
+      clientSecret: GMAIL_CLIENT_SECRET,
+      refreshToken: OAUTH_REFRESH_TOKEN,
+      accessToken: accessToken.token!,
+    },
+  });
+
+  const mailOptions = {
+    from: `Sufi's Kitchen <${SENDER_EMAIL}>`,
+    to: "aaoooz1@gmail.com",
+    cc: "hassanasim337@gmail.com",
+    subject: `New Order Received: #${orderId}`,
+    html: formatOrderAsHtml(orderId, orderInput),
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
+
+// --- Genkit Flow Definition ---
+
+// This is the main function that the frontend will call.
+export async function processOrder(input: OrderInput): Promise<OrderOutput> {
+  return processOrderFlow(input);
+}
+
 const processOrderFlow = ai.defineFlow(
   {
     name: 'processOrderFlow',
@@ -112,64 +162,29 @@ const processOrderFlow = ai.defineFlow(
   },
   async (input) => {
     
-    console.log("Processing order:", JSON.stringify(input, null, 2));
-
     const orderId = `SUFI-${Date.now()}`;
     
-    // ** EMAIL LOGIC WOULD GO HERE **
-    // In a real application, you would use a service like Resend, SendGrid, or Mailgun
-    // to send the email. This requires securely managing API keys on the server.
-    
-    // 1. Install your chosen email provider's SDK: `npm install resend`
-    
-    // 2. Import it and initialize it with your API key (stored securely in environment variables)
-    //    import { Resend } from 'resend';
-    //    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    // 3. Format the email content.
-    const emailHtml = formatOrderAsHtml(orderId, input);
-    // You should store these emails in environment variables for security and flexibility.
-    const toEmails = ["hassanasim337@gmail.com", "aaoooz1@gmail.com"];
-    
-    // 4. Send the email.
-    /*
-    if (toEmails.length > 0) {
-        try {
-          await resend.emails.send({
-            from: 'Sufi\'s Kitchen <noreply@yourdomain.com>',
-            to: toEmails,
-            subject: `New Order Received: #${orderId}`,
-            html: emailHtml,
-          });
-          console.log(`Email sent successfully for order ${orderId}`);
-        } catch (error) {
-          console.error("Failed to send email:", error);
-          // Decide if you want to fail the whole order if email fails.
-          // For now, we'll just log it and continue.
-        }
-    } else {
-        console.warn("No recipient emails configured. Skipping email notification.");
+    try {
+      console.log(`Attempting to send email for order ${orderId}...`);
+      await sendOrderEmail(orderId, input);
+      console.log(`Email sent successfully for order ${orderId}`);
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      // Fallback or logging if email fails, but don't block the order.
+      // In a real app, you might add this to a retry queue.
+      console.log("----- EMAIL SIMULATION (FALLBACK) -----");
+      const emailHtml = formatOrderAsHtml(orderId, input);
+      console.log("To: aaoooz1@gmail.com, hassanasim337@gmail.com");
+      console.log("Subject:", `New Order Received: #${orderId}`);
+      console.log("Body (HTML would be sent):\n", emailHtml);
+      console.log("---------------------------------------");
     }
-    */
-    
-    // For now, we simulate sending the email by logging it to the console.
-    console.log("----- EMAIL SIMULATION -----");
-    if (toEmails.length > 0) {
-        console.log("To:", toEmails.join(', '));
-        console.log("Subject:", `New Order Received: #${orderId}`);
-        console.log("Body (HTML would be sent):\n", emailHtml);
-    } else {
-        console.log("No recipient emails configured.");
-        console.log("Simulated email body for debugging:\n", emailHtml);
-    }
-    console.log("----------------------------");
-
     
     const message = input.paymentMethod === 'Easypaisa' 
       ? `Your order #${orderId} is confirmed! Please remember to send the receipt via WhatsApp.`
       : `Your order #${orderId} has been placed successfully! It will be delivered soon.`;
 
-    // Return a successful response.
+    // Return a successful response to the user.
     return {
       success: true,
       orderId: orderId,

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useCart } from '@/hooks/use-cart';
-import { ShoppingCart, PlusCircle, MinusCircle, Trash2, Home, Wallet, Smartphone } from 'lucide-react';
+import { ShoppingCart, PlusCircle, MinusCircle, Trash2, Wallet, Smartphone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -21,11 +21,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { processOrder } from '@/ai/flows/order-flow';
+import { useToast } from '@/hooks/use-toast';
+
 
 export default function CartPage() {
   const { items, removeItem, updateItemQuantity, clearCart, totalPrice } = useCart();
+  const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
+  
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const deliveryFee = totalPrice > 0 && totalPrice < 3000 ? 150 : 0;
   const finalTotal = totalPrice + deliveryFee;
@@ -34,21 +42,49 @@ export default function CartPage() {
     setIsMounted(true);
   }, []);
 
-  const handlePlaceOrder = (paymentMethod: 'COD' | 'Easypaisa') => {
-    if (!address.trim()) {
-        alert('Please enter a delivery address.');
-        return;
+  const isFormValid = () => {
+    return name.trim() && phone.trim() && address.trim() && items.length > 0;
+  }
+
+  const handlePlaceOrder = async (paymentMethod: 'COD' | 'Easypaisa') => {
+    if (!isFormValid()) {
+      toast({
+        title: 'Incomplete Information',
+        description: 'Please fill in your name, phone number, and address.',
+        variant: 'destructive',
+      });
+      return;
     }
-    // Here you would typically handle the order submission to a backend.
-    // For now, we'll just clear the cart and show a confirmation.
-    console.log({
-        paymentMethod,
-        address,
-        items,
-        total: finalTotal,
-    });
     
-    // The dialog will handle the next steps
+    setIsSubmitting(true);
+
+    try {
+      const orderDetails = {
+        customer: { name, phone, address },
+        items,
+        totalPrice: finalTotal,
+        paymentMethod,
+      }
+      
+      const result = await processOrder(orderDetails);
+      
+      toast({
+        title: 'Order Placed!',
+        description: result.confirmationMessage,
+      });
+
+      clearCart();
+
+    } catch (error) {
+      console.error('Failed to process order:', error);
+      toast({
+        title: 'Order Failed',
+        description: 'There was a problem placing your order. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
 
@@ -69,10 +105,26 @@ export default function CartPage() {
                 <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle>Cart Items</CardTitle>
                     {items.length > 0 && (
-                        <Button variant="outline" size="sm" onClick={clearCart}>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Clear Cart
-                        </Button>
+                         <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="outline" size="sm">
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Clear Cart
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently clear all items from your cart.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={clearCart}>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     )}
                 </CardHeader>
                 <CardContent>
@@ -93,16 +145,16 @@ export default function CartPage() {
                                         <p className="text-sm text-muted-foreground">PKR {item.price.toFixed(2)}</p>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Button size="icon" variant="ghost" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>
+                                        <Button size="icon" variant="ghost" onClick={() => updateItemQuantity(item.id, item.quantity - 1)} disabled={isSubmitting}>
                                             <MinusCircle className="h-5 w-5" />
                                         </Button>
                                         <span>{item.quantity}</span>
-                                        <Button size="icon" variant="ghost" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>
+                                        <Button size="icon" variant="ghost" onClick={() => updateItemQuantity(item.id, item.quantity + 1)} disabled={isSubmitting}>
                                             <PlusCircle className="h-5 w-5" />
                                         </Button>
                                     </div>
                                     <p className="font-semibold w-24 text-right">PKR {(item.price * item.quantity).toFixed(2)}</p>
-                                    <Button size="icon" variant="destructive" onClick={() => removeItem(item.id)}>
+                                    <Button size="icon" variant="destructive" onClick={() => removeItem(item.id)} disabled={isSubmitting}>
                                         <Trash2 className="h-5 w-5" />
                                     </Button>
                                 </div>
@@ -119,6 +171,28 @@ export default function CartPage() {
                     <CardTitle>Order Summary</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                         <div className="space-y-2">
+                            <Label htmlFor="name">Name</Label>
+                            <Input 
+                                id="name" 
+                                placeholder="Your Name" 
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                disabled={isSubmitting}
+                            />
+                        </div>
+                         <div className="space-y-2">
+                            <Label htmlFor="phone">Phone</Label>
+                            <Input 
+                                id="phone" 
+                                placeholder="0300-1234567" 
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                disabled={isSubmitting}
+                            />
+                        </div>
+                    </div>
                      <div className="space-y-2">
                         <Label htmlFor="address">Delivery Address</Label>
                         <Input 
@@ -126,6 +200,7 @@ export default function CartPage() {
                             placeholder="Your address in Banigala" 
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
+                            disabled={isSubmitting}
                         />
                     </div>
                     <Separator />
@@ -145,13 +220,13 @@ export default function CartPage() {
                     </div>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-3">
-                     <Button className="w-full" disabled={items.length === 0 || !address.trim()} onClick={() => handlePlaceOrder('COD')}>
+                     <Button className="w-full" disabled={!isFormValid() || isSubmitting} onClick={() => handlePlaceOrder('COD')}>
                         <Wallet className="mr-2 h-5 w-5" />
-                        Cash on Delivery
+                        {isSubmitting ? 'Placing Order...' : 'Cash on Delivery'}
                     </Button>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
-                           <Button className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={items.length === 0 || !address.trim()}>
+                           <Button className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={!isFormValid() || isSubmitting}>
                                 <Smartphone className="mr-2 h-5 w-5" />
                                 Pay with Easypaisa
                             </Button>
@@ -167,10 +242,7 @@ export default function CartPage() {
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => {
-                                handlePlaceOrder('Easypaisa');
-                                clearCart();
-                            }}>
+                            <AlertDialogAction onClick={() => handlePlaceOrder('Easypaisa')} disabled={isSubmitting}>
                                 I Have Paid
                             </AlertDialogAction>
                             </AlertDialogFooter>

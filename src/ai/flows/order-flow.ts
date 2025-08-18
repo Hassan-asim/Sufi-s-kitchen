@@ -129,30 +129,39 @@ const processOrderFlow = ai.defineFlow(
     // 3. Format the email content.
     const emailHtml = formatOrderAsHtml(orderId, input);
     // You should store these emails in environment variables for security and flexibility.
-    const toEmails = [process.env.ORDER_EMAIL_RECIPIENT_1, process.env.ORDER_EMAIL_RECIPIENT_2];
+    const toEmails = [process.env.ORDER_EMAIL_RECIPIENT_1, process.env.ORDER_EMAIL_RECIPIENT_2].filter(Boolean) as string[];
     
     // 4. Send the email.
     /*
-    try {
-      await resend.emails.send({
-        from: 'Sufi\'s Kitchen <noreply@yourdomain.com>',
-        to: toEmails,
-        subject: `New Order Received: #${orderId}`,
-        html: emailHtml,
-      });
-      console.log(`Email sent successfully for order ${orderId}`);
-    } catch (error) {
-      console.error("Failed to send email:", error);
-      // Decide if you want to fail the whole order if email fails.
-      // For now, we'll just log it and continue.
+    if (toEmails.length > 0) {
+        try {
+          await resend.emails.send({
+            from: 'Sufi\'s Kitchen <noreply@yourdomain.com>',
+            to: toEmails,
+            subject: `New Order Received: #${orderId}`,
+            html: emailHtml,
+          });
+          console.log(`Email sent successfully for order ${orderId}`);
+        } catch (error) {
+          console.error("Failed to send email:", error);
+          // Decide if you want to fail the whole order if email fails.
+          // For now, we'll just log it and continue.
+        }
+    } else {
+        console.warn("No recipient emails configured. Skipping email notification.");
     }
     */
     
     // For now, we simulate sending the email by logging it to the console.
     console.log("----- EMAIL SIMULATION -----");
-    console.log("To:", toEmails.join(', '));
-    console.log("Subject:", `New Order Received: #${orderId}`);
-    console.log("Body (HTML would be sent):\n", emailHtml);
+    if (toEmails.length > 0) {
+        console.log("To:", toEmails.join(', '));
+        console.log("Subject:", `New Order Received: #${orderId}`);
+        console.log("Body (HTML would be sent):\n", emailHtml);
+    } else {
+        console.log("No recipient emails configured in environment variables (ORDER_EMAIL_RECIPIENT_1, ORDER_EMAIL_RECIPIENT_2).");
+        console.log("Simulated email body for debugging:\n", emailHtml);
+    }
     console.log("----------------------------");
 
     

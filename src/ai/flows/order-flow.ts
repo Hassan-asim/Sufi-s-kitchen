@@ -118,7 +118,7 @@ const processOrderFlow = ai.defineFlow(
     
     // ** EMAIL LOGIC WOULD GO HERE **
     // In a real application, you would use a service like Resend, SendGrid, or Mailgun
-    // to send the email. Below is a conceptual example of how you might do it with Resend.
+    // to send the email. This requires securely managing API keys on the server.
     
     // 1. Install your chosen email provider's SDK: `npm install resend`
     
@@ -128,7 +128,8 @@ const processOrderFlow = ai.defineFlow(
 
     // 3. Format the email content.
     const emailHtml = formatOrderAsHtml(orderId, input);
-    const toEmails = ['hassanasim337@gmail.com', 'aaoooz1@gmail.com'];
+    // You should store these emails in environment variables for security and flexibility.
+    const toEmails = [process.env.ORDER_EMAIL_RECIPIENT_1, process.env.ORDER_EMAIL_RECIPIENT_2];
     
     // 4. Send the email.
     /*
@@ -147,6 +148,7 @@ const processOrderFlow = ai.defineFlow(
     }
     */
     
+    // For now, we simulate sending the email by logging it to the console.
     console.log("----- EMAIL SIMULATION -----");
     console.log("To:", toEmails.join(', '));
     console.log("Subject:", `New Order Received: #${orderId}`);
